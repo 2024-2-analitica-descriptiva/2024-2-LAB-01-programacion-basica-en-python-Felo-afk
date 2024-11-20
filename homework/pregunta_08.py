@@ -5,6 +5,8 @@ solo puede utilizar las funciones y librerias basicas de python. No puede
 utilizar pandas, numpy o scipy.
 """
 
+import csv
+
 
 def pregunta_08():
     """
@@ -27,3 +29,13 @@ def pregunta_08():
      (9, ['A', 'B', 'C', 'E'])]
 
     """
+    with open("files/input/data.csv", mode="r", encoding="utf-8") as arc:
+        lector = csv.reader(arc, delimiter="\t")
+        data = [fila for fila in lector]
+    valores_unicos = sorted(set(fila[1] for fila in data))
+    res = []
+    for it in valores_unicos:
+        un = set(fila[0] for fila in data if fila[1] == it)
+        res.append((int(it), sorted(list(un))))
+
+    return res

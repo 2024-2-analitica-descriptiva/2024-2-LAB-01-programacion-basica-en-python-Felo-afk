@@ -5,6 +5,8 @@ solo puede utilizar las funciones y librerias basicas de python. No puede
 utilizar pandas, numpy o scipy.
 """
 
+import csv
+
 
 def pregunta_06():
     """
@@ -26,3 +28,23 @@ def pregunta_06():
      ('jjj', 5, 17)]
 
     """
+    with open("files/input/data.csv", mode="r", encoding="utf-8") as arc:
+        lector = csv.reader(arc, delimiter="\t")
+        data = [fila for fila in lector]
+    diccionario = []
+    [diccionario.extend(x[4].split(",")) for x in data]
+
+    diccionario = [tuple(x.split(":")) for x in diccionario]
+    elementos = set(fila[0] for fila in diccionario)
+    res = [
+        (
+            elemento,
+            min(int(fila[1]) for fila in diccionario if fila[0] == elemento),
+            max(int(fila[1]) for fila in diccionario if fila[0] == elemento),
+        )
+        for elemento in elementos
+    ]
+    return sorted(res, key=lambda x: x[0])
+
+
+print(pregunta_06())
